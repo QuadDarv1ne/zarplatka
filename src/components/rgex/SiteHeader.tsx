@@ -13,13 +13,13 @@ export function SiteHeader() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-backdrop-filter:bg-background/60 shadow-sm">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5 font-bold text-lg tracking-tight group">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-[10px] font-extrabold tracking-tight shadow-sm group-hover:shadow-emerald-500/20 transition-shadow">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-emerald-500 to-teal-600 text-white text-[10px] font-extrabold tracking-tight shadow-sm group-hover:shadow-emerald-500/20 transition-shadow">
             Zp
           </div>
-          <span className="hidden sm:inline bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">Zarplatka</span>
+          <span className="hidden sm:inline bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">Zarplatka</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">
@@ -61,7 +61,7 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
               <SheetTitle className="text-lg font-bold flex items-center gap-2">
-                <div className="flex h-6 w-6 items-center justify-center rounded bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-[8px] font-extrabold">Zp</div>
+                <div className="flex h-6 w-6 items-center justify-center rounded bg-linear-to-br from-emerald-500 to-teal-600 text-white text-[8px] font-extrabold">Zp</div>
                 Zarplatka
               </SheetTitle>
               <nav className="flex flex-col gap-1 mt-6">

@@ -18,11 +18,53 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zarplatka — Статистика зарплат, цены и открытые данные по России и миру",
+  title: {
+    default: "Zarplatka — Статистика зарплат, цены и открытые данные",
+    template: "%s | Zarplatka",
+  },
   description:
     "Средние зарплаты по странам мира и регионам России. Рейтинги, цены, население, рынок труда и открытые данные.",
+  keywords: [
+    "зарплаты",
+    "зарплата",
+    "Россия",
+    "статистика",
+    "рейтинги",
+    "средняя зарплата",
+    "открытые данные",
+    "МРОТ",
+    "рынок труда",
+    "профессии",
+  ],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    siteName: "Zarplatka",
+    title: "Zarplatka — Статистика зарплат и открытые данные",
+    description:
+      "Средние зарплаты по странам мира и регионам России. Рейтинги, цены, население, рынок труда.",
+    images: [
+      {
+        url: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+        width: 1200,
+        height: 630,
+        alt: "Zarplatka",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zarplatka — Статистика зарплат",
+    description: "Открытые данные о зарплатах, ценах и рынке труда.",
+  },
+  alternates: {
+    canonical: "https://zarplatka.ru/",
+  },
+  verification: {
+    google: "your-google-verification-code",
   },
 };
 

@@ -1,4 +1,4 @@
-'client';
+'use client';
 
 import { continueLinks } from '@/lib/data/salaries';
 import { ArrowRight, BarChart3, Users, Building2, Wallet, TrendingUp } from 'lucide-react';
@@ -19,7 +19,7 @@ export function ContinueSection() {
               href="#"
               className="group flex items-start gap-3 rounded-xl border bg-card p-4 hover:border-emerald-200 dark:hover:border-emerald-800 shadow-sm hover:shadow-md transition-all"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/30 shrink-0">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/30 shrink-0">
                 <Icon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div className="min-w-0">

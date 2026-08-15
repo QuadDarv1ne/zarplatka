@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-5">
           <div className="col-span-2 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 font-bold text-lg tracking-tight">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-[11px] font-extrabold">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-emerald-500 to-teal-600 text-white text-[11px] font-extrabold">
                 Zp
               </div>
               <span>Zarplatka</span>

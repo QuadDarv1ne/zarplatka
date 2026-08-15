@@ -1,4 +1,4 @@
-'client';
+'use client';
 
 import { topProfessions, topIndustries } from '@/lib/data/salaries';
 import { formatSalary } from './utils';

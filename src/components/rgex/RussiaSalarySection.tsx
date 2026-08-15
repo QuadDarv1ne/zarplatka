@@ -14,7 +14,7 @@ export function RussiaSalarySection() {
           Россия · {russiaSalaryMeta.year}
         </Badge>
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mt-3">Средняя зарплата в России</h2>
-        <div className="mt-3 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20 border border-emerald-100 dark:border-emerald-900/30 p-5">
+        <div className="mt-3 rounded-xl bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20 border border-emerald-100 dark:border-emerald-900/30 p-5">
           <p className="text-sm text-muted-foreground">Средняя номинальная начисленная зарплата</p>
           <div className="flex items-baseline gap-2 mt-1">
             <strong className="text-4xl font-bold text-emerald-600 dark:text-emerald-400">

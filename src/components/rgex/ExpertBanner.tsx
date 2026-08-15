@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 export function ExpertBanner() {
   return (
     <div className="flex flex-col sm:flex-row items-start gap-4 rounded-xl border bg-card p-5 sm:p-6 shadow-sm">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-950 dark:to-teal-950 shrink-0">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-emerald-100 to-teal-100 dark:from-emerald-950 dark:to-teal-950 shrink-0">
         <User className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
       </div>
       <div className="flex-1">
