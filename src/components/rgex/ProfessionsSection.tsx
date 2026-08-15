@@ -1,12 +1,29 @@
 'use client';
 
+import { useRef, useEffect, useState } from 'react';
 import { topProfessions, topIndustries } from '@/lib/data/salaries';
 import { formatSalary } from './utils';
 import { ArrowRight } from 'lucide-react';
 
 export function ProfessionsSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="space-y-6">
+    <section ref={ref} className={`space-y-6 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Рынок труда</span>
       </div>
@@ -17,7 +34,7 @@ export function ProfessionsSection() {
       </p>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border bg-card p-5 sm:p-6 shadow-sm">
+        <div className={`rounded-xl border bg-card p-5 sm:p-6 shadow-sm transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'}`}>
           <div className="flex items-center justify-between mb-1">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Специальности</span>
             <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">453+</span>
@@ -41,7 +58,7 @@ export function ProfessionsSection() {
           </button>
         </div>
 
-        <div className="rounded-xl border bg-card p-5 sm:p-6 shadow-sm">
+        <div className={`rounded-xl border bg-card p-5 sm:p-6 shadow-sm transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'}`}>
           <h3 className="font-semibold mb-4">Отрасли с высокой зарплатой</h3>
           <ol className="space-y-0.5">
             {topIndustries.map((ind) => (

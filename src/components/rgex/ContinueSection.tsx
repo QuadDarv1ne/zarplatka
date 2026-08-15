@@ -1,13 +1,30 @@
 'use client';
 
+import { useRef, useEffect, useState } from 'react';
 import { continueLinks } from '@/lib/data/salaries';
 import { ArrowRight, BarChart3, Users, Building2, Wallet, TrendingUp } from 'lucide-react';
 
 const icons = [BarChart3, Users, Building2, Wallet, TrendingUp];
 
 export function ContinueSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="space-y-4">
+    <section ref={ref} className={`space-y-4 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <h2 className="text-xl font-bold tracking-tight">Продолжить изучение</h2>
       <p className="text-sm text-muted-foreground">Данные и территории для локации: Россия.</p>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -17,7 +34,11 @@ export function ContinueSection() {
             <a
               key={link.title}
               href="#"
-              className="group flex items-start gap-3 rounded-xl border bg-card p-4 hover:border-emerald-200 dark:hover:border-emerald-800 shadow-sm hover:shadow-md transition-all"
+              aria-label={link.title}
+              className={`group flex items-start gap-3 rounded-xl border bg-card p-4 hover:border-emerald-200 dark:hover:border-emerald-800 shadow-sm hover:shadow-md transition-all ${
+                visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+              style={{ transitionDelay: `${200 + i * 100}ms`, transitionDuration: '500ms' }}
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/30 shrink-0">
                 <Icon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />

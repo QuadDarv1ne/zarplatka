@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const trendData = [
@@ -15,8 +16,24 @@ const trendData = [
 ];
 
 export function SalaryTrendChart() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="space-y-4">
+    <section ref={ref} className={`space-y-4 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Динамика</span>
       </div>
@@ -60,8 +77,24 @@ export function SalaryTrendChart() {
                 contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))', fontSize: '13px' }}
                 labelStyle={{ fontWeight: 600 }}
               />
-              <Area type="monotone" dataKey="world" stroke="hsl(168, 60%, 58%)" fillOpacity={1} fill="url(#gradWorld)" strokeWidth={2} />
-              <Area type="monotone" dataKey="russia" stroke="hsl(160, 84%, 39%)" fillOpacity={1} fill="url(#gradRussia)" strokeWidth={2} />
+              <Area
+                type="monotone"
+                dataKey="world"
+                stroke="hsl(168, 60%, 58%)"
+                fillOpacity={1}
+                fill="url(#gradWorld)"
+                strokeWidth={2}
+                animationBegin={visible ? 0 : 1000}
+              />
+              <Area
+                type="monotone"
+                dataKey="russia"
+                stroke="hsl(160, 84%, 39%)"
+                fillOpacity={1}
+                fill="url(#gradRussia)"
+                strokeWidth={2}
+                animationBegin={visible ? 0 : 1000}
+              />
             </AreaChart>
           </ResponsiveContainer>
         </div>

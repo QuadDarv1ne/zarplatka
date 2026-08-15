@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect, useState } from 'react';
 import { companySizeData, worldSalaryMeta } from '@/lib/data/salaries';
 import { Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { AnimatedCounter } from './AnimatedCounter';
@@ -14,8 +15,24 @@ const COLORS = [
 ];
 
 export function CompanySizeChart() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="space-y-4">
+    <section ref={ref} className={`space-y-4 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Размер работодателя</span>
       </div>
@@ -42,7 +59,7 @@ export function CompanySizeChart() {
                 formatter={(value: number) => [formatSalary(value), 'Зарплата']}
                 contentStyle={{ borderRadius: '8px', border: '1px solid hsl(var(--border))', fontSize: '13px' }}
               />
-              <Bar dataKey="salary" radius={[0, 6, 6, 0]}>
+              <Bar dataKey="salary" radius={[0, 6, 6, 0]} animationBegin={visible ? 0 : 1000}>
                 {companySizeData.map((_, index) => (
                   <Cell key={index} fill={COLORS[index % COLORS.length]} />
                 ))}
@@ -52,7 +69,7 @@ export function CompanySizeChart() {
         </div>
         <div className="mt-5 grid grid-cols-2 sm:grid-cols-5 gap-3">
           {companySizeData.map((item, i) => (
-            <div key={item.label} className="text-center p-2 rounded-lg hover:bg-muted/50 transition-colors">
+            <div key={item.label} className={`text-center p-2 rounded-lg hover:bg-muted/50 transition-colors ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: `${200 + i * 100}ms` }}>
               <div className="h-1.5 w-full rounded-full mb-2" style={{ backgroundColor: COLORS[i] }} />
               <p className="text-xs font-semibold">{item.label}</p>
               <p className="text-[11px] text-muted-foreground">{item.description}</p>

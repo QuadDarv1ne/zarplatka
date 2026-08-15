@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect, useState } from 'react';
 import { topRegions, topCities, russiaSalaryMeta } from '@/lib/data/salaries';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, TrendingUp } from 'lucide-react';
@@ -7,9 +8,25 @@ import { AnimatedCounter } from './AnimatedCounter';
 import { formatSalary } from './utils';
 
 export function RussiaSalarySection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="space-y-6">
-      <div>
+    <section ref={ref} className="space-y-6">
+      <div className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
         <Badge variant="secondary" className="text-xs uppercase tracking-wider font-semibold">
           Россия · {russiaSalaryMeta.year}
         </Badge>
@@ -30,14 +47,18 @@ export function RussiaSalarySection() {
         <p className="text-sm text-muted-foreground mt-3 max-w-2xl leading-relaxed">
           Расчётный ориентир для сопоставления территорий. Доступны медиана, динамика по годам, типы компаний и сферы деятельности.
         </p>
-        <a href="#" className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400 transition-colors mt-1">
+        <a href="#" className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400 transition-colors mt-1" aria-label="Подробная статистика по России">
           Подробная статистика по России <ArrowRight className="h-4 w-4" />
         </a>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <RegionsCard />
-        <CitiesCard />
+        <div className={`transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          <RegionsCard />
+        </div>
+        <div className={`transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          <CitiesCard />
+        </div>
       </div>
     </section>
   );

@@ -1,28 +1,49 @@
+'use client';
+
+import { useRef, useEffect, useState } from 'react';
 import { User, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export function ExpertBanner() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="flex flex-col sm:flex-row items-start gap-4 rounded-xl border bg-card p-5 sm:p-6 shadow-sm">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-emerald-100 to-teal-100 dark:from-emerald-950 dark:to-teal-950 shrink-0">
-        <User className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
-      </div>
-      <div className="flex-1">
-        <div className="flex items-center gap-2">
-          <p className="text-sm font-semibold">Данные проверяет эксперт</p>
-          <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+    <section ref={ref} className={`space-y-4 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+      <div className={`flex flex-col sm:flex-row items-start gap-4 rounded-xl border bg-card p-5 sm:p-6 shadow-sm transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-emerald-100 to-teal-100 dark:from-emerald-950 dark:to-teal-950 shrink-0">
+          <User className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
         </div>
-        <a href="#" className="text-sm font-bold hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
-          Игорь Вульф
-        </a>
-        <span className="text-xs text-muted-foreground ml-1">— эксперт Zarplatka</span>
-        <p className="text-xs text-muted-foreground mt-1">
-          Отвечает за общероссийские данные о зарплатах и рынке труда.
-        </p>
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-semibold">Данные проверяет эксперт</p>
+            <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+          </div>
+          <a href="#" className="text-sm font-bold hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+            Игорь Вульф
+          </a>
+          <span className="text-xs text-muted-foreground ml-1">— эксперт Zarplatka</span>
+          <p className="text-xs text-muted-foreground mt-1">
+            Отвечает за общероссийские данные о зарплатах и рынке труда.
+          </p>
+        </div>
+        <Button variant="outline" size="sm" className="shrink-0" aria-label="Сообщить о неточности в данных">
+          Сообщить о неточности
+        </Button>
       </div>
-      <Button variant="outline" size="sm" className="shrink-0">
-        Сообщить о неточности
-      </Button>
-    </div>
+    </section>
   );
 }

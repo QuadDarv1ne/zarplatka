@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { FiltersBar } from '@/components/rgex/FiltersBar';
 import { WorldSalarySection } from '@/components/rgex/WorldSalarySection';
@@ -13,15 +13,37 @@ import { RatingsSection } from '@/components/rgex/RatingsSection';
 import { ContinueSection } from '@/components/rgex/ContinueSection';
 import { FAQSection } from '@/components/rgex/FAQSection';
 import { ExpertBanner } from '@/components/rgex/ExpertBanner';
+import { ScrollProgress } from '@/components/rgex/ScrollProgress';
+import { DataFreshness } from '@/components/rgex/DataFreshness';
 
 export default function HomePage() {
   const [location, setLocation] = useState('Весь мир');
   const [dataCategory, setDataCategory] = useState('Статистика');
   const [sphere, setSphere] = useState('Все сферы');
   const [year, setYear] = useState('2026');
+  const [activeSection, setActiveSection] = useState('');
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('section[id]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -60% 0px' }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <ScrollProgress />
+
       {/* Hero */}
       <section className="py-8 sm:py-12 space-y-6">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
@@ -40,75 +62,76 @@ export default function HomePage() {
           onSphereChange={setSphere}
           onYearChange={setYear}
         />
+        <DataFreshness />
       </section>
 
       <Separator />
 
       {/* World Salary */}
-      <section className="py-10">
+      <section id="world-salary" className="py-10">
         <WorldSalarySection />
       </section>
 
       <Separator />
 
       {/* Salary Trend */}
-      <section className="py-10">
+      <section id="salary-trend" className="py-10">
         <SalaryTrendChart />
       </section>
 
       <Separator />
 
       {/* Company Size */}
-      <section className="py-10">
+      <section id="company-size" className="py-10">
         <CompanySizeChart />
       </section>
 
       <Separator />
 
       {/* Gini */}
-      <section className="py-10">
+      <section id="gini" className="py-10">
         <GiniSection />
       </section>
 
       <Separator />
 
       {/* Russia */}
-      <section className="py-10">
+      <section id="russia" className="py-10">
         <RussiaSalarySection />
       </section>
 
       <Separator />
 
       {/* Professions */}
-      <section className="py-10">
+      <section id="professions" className="py-10">
         <ProfessionsSection />
       </section>
 
       <Separator />
 
       {/* Expert */}
-      <section className="py-10">
+      <section id="expert" className="py-10">
         <ExpertBanner />
       </section>
 
       <Separator />
 
       {/* Continue */}
-      <section className="py-10">
+      <section id="continue" className="py-10">
         <ContinueSection />
       </section>
 
       <Separator />
 
       {/* Ratings */}
-      <section className="py-10">
+      <section id="ratings" className="py-10">
         <RatingsSection />
       </section>
 
       <Separator />
 
       {/* FAQ */}
-      <section className="py-10 pb-16">
+      <section id="faq" className="py-10 pb-16">
         <FAQSection />
       </section>
     </div>

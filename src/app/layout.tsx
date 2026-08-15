@@ -6,6 +6,9 @@ import { ThemeProvider } from "next-themes";
 import { SiteHeader } from "@/components/rgex/SiteHeader";
 import { SiteFooter } from "@/components/rgex/SiteFooter";
 import { BackToTop } from "@/components/rgex/BackToTop";
+import { ScrollProgress } from "@/components/rgex/ScrollProgress";
+import { JsonLd } from "@/components/rgex/JsonLd";
+import { CookieBanner } from "@/components/rgex/CookieBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -78,16 +81,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground min-h-screen flex flex-col scroll-smooth`}
       >
+        <JsonLd />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <ScrollProgress />
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
           <BackToTop />
+          <CookieBanner />
         </ThemeProvider>
         <Toaster />
       </body>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect, useState } from 'react';
 import { topCountries, worldSalaryMeta } from '@/lib/data/salaries';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, TrendingUp } from 'lucide-react';
@@ -7,9 +8,25 @@ import { AnimatedCounter } from './AnimatedCounter';
 import { formatSalary } from './utils';
 
 export function WorldSalarySection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="data" className="grid gap-6 lg:grid-cols-2 lg:gap-10">
-      <div className="space-y-4">
+    <section id="data" ref={ref} className="grid gap-6 lg:grid-cols-2 lg:gap-10">
+      <div className={`space-y-4 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
         <Badge variant="secondary" className="text-xs uppercase tracking-wider font-semibold">
           Международное сравнение
         </Badge>
@@ -44,12 +61,13 @@ export function WorldSalarySection() {
         <a
           href="#"
           className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
+          aria-label="Рейтинг зарплат по странам мира"
         >
           Рейтинг зарплат по странам мира <ArrowRight className="h-4 w-4" />
         </a>
       </div>
 
-      <div className="rounded-xl border bg-card p-5 sm:p-6 shadow-sm">
+      <div className={`rounded-xl border bg-card p-5 sm:p-6 shadow-sm transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold">Страны с высокой средней зарплатой</h3>
           <span className="text-xs text-muted-foreground font-medium bg-muted px-2 py-0.5 rounded-full">{worldSalaryMeta.year}</span>
@@ -71,7 +89,7 @@ export function WorldSalarySection() {
             </li>
           ))}
         </ol>
-        <a href="#" className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 transition-colors">
+        <a href="#" className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 transition-colors" aria-label="Весь рейтинг">
           Весь рейтинг <ArrowRight className="h-3 w-3" />
         </a>
       </div>

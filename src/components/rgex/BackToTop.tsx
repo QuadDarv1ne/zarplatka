@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 600);
@@ -18,10 +19,17 @@ export function BackToTop() {
   return (
     <Button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       size="icon"
-      className="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full shadow-lg bg-emerald-600 hover:bg-emerald-700 text-white"
+      aria-label="Наверх"
+      className="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full shadow-lg bg-emerald-600 hover:bg-emerald-700 text-white transition-all duration-300 hover:scale-110 hover:shadow-xl"
     >
-      <ArrowUp className="h-4 w-4" />
+      <ArrowUp className={cn('h-4 w-4 transition-transform duration-300', hovered && '-translate-y-0.5')} />
     </Button>
   );
+}
+
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(' ');
 }
