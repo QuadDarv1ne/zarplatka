@@ -1,13 +1,12 @@
 import { Calendar, RefreshCw } from 'lucide-react';
-
-const DATA_UPDATED = '2026-08-15';
+import { SITE_CONFIG } from '@/lib/config';
 
 export function DataFreshness() {
   const formatted = new Intl.DateTimeFormat('ru-RU', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
-  }).format(new Date(DATA_UPDATED));
+  }).format(new Date(SITE_CONFIG.dataUpdated));
 
   return (
     <div className="flex items-center gap-2 text-xs text-muted-foreground">

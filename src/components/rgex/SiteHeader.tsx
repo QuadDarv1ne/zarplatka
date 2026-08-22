@@ -36,6 +36,13 @@ export function SiteHeader() {
     }
   };
 
+  const handleNavKeyDown = (e: React.KeyboardEvent, href: string) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleNavClick(href);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-backdrop-filter:bg-background/60 shadow-sm">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -51,6 +58,7 @@ export function SiteHeader() {
             <button
               key={link.label}
               onClick={() => handleNavClick(link.href)}
+              onKeyDown={(e) => handleNavKeyDown(e, link.href)}
               className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md hover:bg-accent"
               aria-label={link.label}
             >
@@ -94,6 +102,7 @@ export function SiteHeader() {
                   <button
                     key={link.label}
                     onClick={() => handleNavClick(link.href)}
+                    onKeyDown={(e) => handleNavKeyDown(e, link.href)}
                     className="px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-md hover:bg-accent transition-colors text-left"
                     aria-label={link.label}
                   >

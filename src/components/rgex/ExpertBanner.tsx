@@ -7,6 +7,18 @@ import { useInView } from '@/hooks/use-in-view';
 export function ExpertBanner() {
   const { ref, isVisible } = useInView();
 
+  const handleReportClick = () => {
+    // TODO: Открыть форму для сообщения о неточности
+    console.log('Сообщить о неточности');
+  };
+
+  const handleReportKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleReportClick();
+    }
+  };
+
   return (
     <section ref={ref} className={`space-y-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <div className={`flex flex-col sm:flex-row items-start gap-4 rounded-xl border bg-card p-5 sm:p-6 shadow-sm transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
@@ -26,7 +38,14 @@ export function ExpertBanner() {
             Отвечает за общероссийские данные о зарплатах и рынке труда.
           </p>
         </div>
-        <Button variant="outline" size="sm" className="shrink-0" aria-label="Сообщить о неточности в данных">
+        <Button
+          variant="outline"
+          size="sm"
+          className="shrink-0"
+          aria-label="Сообщить о неточности в данных"
+          onClick={handleReportClick}
+          onKeyDown={handleReportKeyDown}
+        >
           Сообщить о неточности
         </Button>
       </div>

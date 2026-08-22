@@ -20,11 +20,12 @@ export function AnimatedCounter({ value, duration = 1200, prefix = '', suffix = 
         if (entry.isIntersecting && !hasAnimated.current) {
           hasAnimated.current = true;
           const start = performance.now();
+          const startValue = 0;
           const animate = (now: number) => {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
-            setDisplay(Math.round(eased * value));
+            setDisplay(Math.round(startValue + (value - startValue) * eased));
             if (progress < 1) requestAnimationFrame(animate);
           };
           requestAnimationFrame(animate);

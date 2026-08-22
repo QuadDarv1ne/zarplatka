@@ -1,47 +1,21 @@
-export interface CountrySalary {  name: string;  slug: string;  salary: number;  flag: string;  continent: string;}
+// Re-export types
+export type {
+  CountrySalary,
+  RegionSalary,
+  CitySalary,
+  ProfessionSalary,
+  IndustrySalary,
+  CompanySizeSalary,
+  GiniSegment,
+  RatingCategory,
+  FAQItem,
+} from './types';
 
-export interface RegionSalary {  name: string;  salary: number;  position: number;}
-
-export interface CitySalary {  name: string;  salary: number;  region: string;}
-
-export interface ProfessionSalary {  name: string;  industry: string;  salary: number;}
-
-export interface IndustrySalary {  name: string;  professionCount: number;  avgSalary: number;}
-
-export interface CompanySizeSalary {  label: string;  description: string;  salary: number;  employees: string;}
-
-export interface GiniSegment {  label: string;  percentage: number;  color: string;}
-
-export interface RatingCategory {  title: string;  group: string;  description: string;}
-
-export interface FAQItem {  question: string;  answer: string;}
-
-export const topCountries: CountrySalary[] = [  { name: 'Норвегия', slug: 'norway', salary: 545800, flag: '🇳🇴', continent: 'Европа' },  { name: 'Лихтенштейн', slug: 'liechtenstein', salary: 530000, flag: '🇱🇮', continent: 'Европа' },  { name: 'Швейцария', slug: 'switzerland', salary: 514500, flag: '🇨🇭', continent: 'Европа' },  { name: 'Монако', slug: 'monaco', salary: 460000, flag: '🇲🇨', continent: 'Европа' },  { name: 'Сингапур', slug: 'singapore', salary: 456300, flag: '🇸🇬', continent: 'Азия' },  { name: 'Люксембург', slug: 'luxembourg', salary: 445000, flag: '🇱🇺', continent: 'Европа' },  { name: 'США', slug: 'usa', salary: 420000, flag: '🇺🇸', continent: 'Северная Америка' },  { name: 'Исландия', slug: 'iceland', salary: 398000, flag: '🇮🇸', continent: 'Европа' },  { name: 'Дания', slug: 'denmark', salary: 385000, flag: '🇩🇰', continent: 'Европа' },  { name: 'Австралия', slug: 'australia', salary: 370000, flag: '🇦🇺', continent: 'Океания' },];
-
-export const topRegions: RegionSalary[] = [  { name: 'Чукотский автономный округ', salary: 168720, position: 1 },  { name: 'Ямало-Ненецкий автономный округ', salary: 157820, position: 2 },  { name: 'Москва', salary: 150770, position: 3 },  { name: 'Магаданская область', salary: 145750, position: 4 },  { name: 'Ненецкий автономный округ', salary: 138400, position: 5 },  { name: 'Сахалинская область', salary: 132800, position: 6 },  { name: 'Ханты-Мансийский АО', salary: 128500, position: 7 },  { name: 'Республика Коми', salary: 95600, position: 8 },  { name: 'Мурманская область', salary: 92300, position: 9 },  { name: 'Тюменская область', salary: 89700, position: 10 },  { name: 'Камчатский край', salary: 87500, position: 11 },  { name: 'Санкт-Петербург', salary: 84200, position: 12 },  { name: 'Республика Саха (Якутия)', salary: 83100, position: 13 },  { name: 'Краснодарский край', salary: 68900, position: 14 },  { name: 'Свердловская область', salary: 65200, position: 15 },  { name: 'Красноярский край', salary: 64800, position: 16 },];
-
-export const topCities: CitySalary[] = [  { name: 'Анадырь', salary: 129200, region: 'Чукотский АО' },  { name: 'Москва', salary: 113600, region: 'Москва' },  { name: 'Салехард', salary: 106400, region: 'Ямало-Ненецкий АО' },  { name: 'Южно-Сахалинск', salary: 99000, region: 'Сахалинская область' },  { name: 'Магадан', salary: 96500, region: 'Магаданская область' },  { name: 'Петропавловск-Камчатский', salary: 92100, region: 'Камчатский край' },  { name: 'Ханты-Мансийск', salary: 89800, region: 'Ханты-Мансийский АО' },  { name: 'Сургут', salary: 87400, region: 'Ханты-Мансийский АО' },  { name: 'Нарьян-Мар', salary: 85200, region: 'Ненецкий АО' },  { name: 'Санкт-Петербург', salary: 79300, region: 'Санкт-Петербург' },  { name: 'Дудинка', salary: 76800, region: 'Красноярский край' },  { name: 'Новый Уренгой', salary: 74200, region: 'Ямало-Ненецкий АО' },];
-
-export const topProfessions: ProfessionSalary[] = [  { name: 'Судья', industry: 'Юриспруденция', salary: 351370 },  { name: 'Нотариус', industry: 'Юриспруденция', salary: 289400 },  { name: 'Полковник полиции', industry: 'Безопасность', salary: 265000 },  { name: 'Go разработчик', industry: 'IT', salary: 248000 },  { name: 'Java разработчик', industry: 'IT', salary: 237000 },  { name: 'Главный врач', industry: 'Медицина', salary: 225000 },  { name: 'iOS разработчик', industry: 'IT', salary: 219000 },  { name: 'Трейдер', industry: 'Финансы', salary: 210000 },  { name: 'C# разработчик', industry: 'IT', salary: 198000 },  { name: 'Data Scientist', industry: 'IT', salary: 195000 },  { name: 'Python разработчик', industry: 'IT', salary: 192000 },  { name: 'Финансовый директор', industry: 'Финансы', salary: 310000 },];
-
-export const topIndustries: IndustrySalary[] = [  { name: 'IT', professionCount: 45, avgSalary: 185000 },  { name: 'Энергетика', professionCount: 32, avgSalary: 142000 },  { name: 'Юриспруденция', professionCount: 28, avgSalary: 138000 },  { name: 'Недвижимость', professionCount: 19, avgSalary: 125000 },  { name: 'Медицина', professionCount: 52, avgSalary: 89000 },  { name: 'Финансы и бухгалтерия', professionCount: 38, avgSalary: 115000 },  { name: 'Безопасность и правоохранительные органы', professionCount: 22, avgSalary: 105000 },  { name: 'Дизайн и креатив', professionCount: 18, avgSalary: 95000 },  { name: 'HR и управление персоналом', professionCount: 15, avgSalary: 82000 },  { name: 'Продажи и торговля', professionCount: 41, avgSalary: 78000 },];
-
-export const companySizeData: CompanySizeSalary[] = [  { label: 'Крупные компании', description: 'от 250 сотрудников', salary: 70000, employees: '250+' },  { label: 'Средние компании', description: 'от 101 до 250 сотрудников', salary: 60000, employees: '101–250' },  { label: 'Малые компании', description: 'от 16 до 100 сотрудников', salary: 50000, employees: '16–100' },  { label: 'Микропредприятия', description: 'до 15 сотрудников', salary: 30000, employees: '1–15' },  { label: 'Бюджетная сфера', description: 'для сопоставления', salary: 40000, employees: '—' },];
-
-export const giniData: GiniSegment[] = [  { label: 'До 40 000 ₽', percentage: 63.7, color: 'hsl(var(--chart-1))' },  { label: 'От 40 000 ₽ до 130 000 ₽', percentage: 33.0, color: 'hsl(var(--chart-2))' },  { label: 'Более 130 000 ₽', percentage: 3.3, color: 'hsl(var(--chart-3))' },];
-
-export const ratingCategories: RatingCategory[] = [  { title: 'Зарплаты по регионам России', group: 'Доходы и работа', description: 'Средняя зарплата' },  { title: 'Покупательная способность регионов России', group: 'Доходы и работа', description: 'С учётом стоимости жизни' },  { title: 'Средняя зарплата и МРОТ по регионам', group: 'Доходы и работа', description: 'Сравнение с МРОТ' },  { title: 'Регионы России по количеству вакансий', group: 'Доходы и работа', description: 'Количество вакансий' },  { title: 'Вакансии на 10 000 жителей', group: 'Доходы и работа', description: 'Плотность рынка труда' },  { title: 'Зарплаты в вакансиях по регионам', group: 'Доходы и работа', description: 'Зарплаты по вакансиям' },  { title: 'Регионы России по числу компаний', group: 'Бизнес', description: 'Количество организаций МСП' },  { title: 'Регионы России по числу ИП', group: 'Бизнес', description: 'Количество индивидуальных предпринимателей' },  { title: 'Доля ИП среди субъектов МСП', group: 'Бизнес', description: 'Доля ИП' },  { title: 'Регионы России по числу субъектов МСП', group: 'Бизнес', description: 'Субъекты малого и среднего бизнеса' },  { title: 'Плотность малого бизнеса по регионам', group: 'Бизнес', description: 'МСП на 10 000 жителей' },  { title: 'Пенсии по регионам России', group: 'Пенсии', description: 'Расчётная пенсия' },  { title: 'Покупательная способность пенсии', group: 'Пенсии', description: 'С учётом стоимости жизни' },  { title: 'Пенсии в странах мира', group: 'Пенсии', description: 'Международное сравнение' },  { title: 'Регионы по числу школьников', group: 'Население', description: 'Численность учащихся' },  { title: 'Регионы по числу студентов', group: 'Население', description: 'Численность студентов вузов' },  { title: 'Регионы по ожидаемой продолжительности жизни', group: 'Продолжительность жизни', description: 'Ожидаемая продолжительность' },  { title: 'Страны мира по населению', group: 'Население', description: 'Численность населения' },];
-
-export const faqItems: FAQItem[] = [  {    question: 'Где посмотреть среднюю зарплату в России?',    answer: 'На главной странице сайта отображается средняя зарплата по России за текущий год. Также вы можете перейти на страницу конкретного региона или города для получения детальных данных, включая динамику по годам и разбивку по сферам деятельности.',  },  {    question: 'Какая средняя зарплата в мире?',    answer: 'Единой «средней зарплаты в мире» не существует: страны публикуют данные в разных валютах, периодах и методологиях. Поэтому корректнее сравнивать государства в одной таблице и отдельно учитывать стоимость жизни. На нашем сайте значения приведены к единой валюте для сопоставления.',  },  {    question: 'Как сравнить зарплаты по странам мира?',    answer: 'Используйте фильтр локации в верхней части страницы и выберите интересующий регион мира. Данные автоматически пересчитаются в выбранную валюту. Также доступен полный рейтинг стран по уровню зарплат.',  },  {    question: 'Где посмотреть зарплаты по регионам и городам России?',    answer: 'На главной странице представлены рейтинги регионов и городов с наиболее высокими зарплатами. Перейдите в раздел «Рейтинги» для полных списков с возможностью сортировки и поиска.',  },  {    question: 'Чем средняя зарплата отличается от медианной?',    answer: 'Средняя зарплата — это сумма всех зарплат, делённая на их количество. Медиана — это значение, которое делит все зарплаты пополам: половина работников получает меньше, половина — больше. Медиана менее чувствительна к выбросам и лучше отражает типичный доход.',  },  {    question: 'Что учитывать при сравнении зарплат?',    answer: 'При сравнении зарплат важно учитывать стоимость жизни в регионе, налоговую нагрузку, социальные гарантии, а также номинальный и реальный доход. Высокая зарплата не всегда означает более высокую покупательную способность.',  },];
-
-export const worldSalaryMeta = {  median: 52750,  currency: '₽',  period: 'в месяц',  countriesCount: 178,  year: 2026,};
-
-export const russiaSalaryMeta = {  average: 78410,  currency: '₽',  period: 'в месяц, до вычета НДФЛ',  year: 2026,};
-
-export const giniMeta = {  coefficient: 37.4,  countriesWithData: 177,};
-
-export const navigationLinks = [  { label: 'Данные', href: '#data' },  { label: 'Рейтинги', href: '#ratings' },  { label: 'О проекте', href: '#about' },  { label: 'Поддержать проект', href: '#support' },];
-
-export const footerData = {  description: 'Статистика, зарплаты, цены и открытые данные по регионам России и странам мира.',  dataLinks: [    { label: 'Зарплаты', href: '#' },    { label: 'Работа', href: '#' },    { label: 'Цены', href: '#' },    { label: 'Население', href: '#' },    { label: 'Рейтинги', href: '#' },  ],  servicesLinks: [    { label: 'Компании и ИП', href: '#' },    { label: 'Почтовые индексы', href: '#' },    { label: 'Телефонные коды', href: '#' },    { label: 'Адреса и дома', href: '#' },  ],  geoLinks: [    { label: 'Страны', href: '#' },    { label: 'Регионы России', href: '#' },    { label: 'Города', href: '#' },    { label: 'Районы', href: '#' },  ],  helpLinks: [    { label: 'О проекте', href: '#' },    { label: 'Реклама на сайте', href: '#' },    { label: 'Поддержать проект', href: '#' },  ],};
-
-export const continueLinks = [  { title: 'Население России', stat: '143,4 млн человек', description: 'Возраст, изменения и сравнение территорий', category: 'Население' },  { title: 'Цены в России', stat: '6 300 ₽/мес.', description: 'Расчётная квартплата', category: 'Цены' },  { title: 'Работа в России', stat: '453+ профессий', description: 'Спрос работодателей и уровни зарплат', category: 'Работа' },  { title: 'Бизнес в России', stat: '2 реестра бизнеса', description: 'Открытые данные ФНС и виды деятельности', category: 'Бизнес' },  { title: 'Рейтинги России', stat: '5 направлений', description: 'Доходы, рынок труда, бизнес и население', category: 'Рейтинги' },];
+// Re-export data from modular files
+export { topCountries } from './countries';
+export { topRegions, topCities } from './regions';
+export { topProfessions, topIndustries } from './professions';
+export { companySizeData, giniData } from './charts';
+export { ratingCategories, faqItems } from './ratings';
+export { worldSalaryMeta, russiaSalaryMeta, giniMeta } from './metadata';
+export { navigationLinks, footerData, continueLinks } from './navigation';

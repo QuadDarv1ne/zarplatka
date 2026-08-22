@@ -67,7 +67,10 @@ export const metadata: Metadata = {
     canonical: "https://zarplatka.ru/",
   },
   verification: {
-    google: "your-google-verification-code",
+    other: {
+      'yandex-verification': 'your-yandex-verification-code',
+      'google-site-verification': 'your-google-verification-code',
+    },
   },
 };
 

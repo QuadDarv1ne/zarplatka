@@ -69,19 +69,19 @@ export function SalaryTrendChart({ year = '2026' }: { year?: string }) {
               />
               <Area
                 type="monotone"
-                dataKey="world"
-                stroke="hsl(168, 60%, 58%)"
+                dataKey="russia"
+                stroke="hsl(160, 84%, 39%)"
                 fillOpacity={1}
-                fill="url(#gradWorld)"
+                fill="url(#gradRussia)"
                 strokeWidth={2}
                 animationBegin={isVisible ? 0 : 1000}
               />
               <Area
                 type="monotone"
-                dataKey="russia"
-                stroke="hsl(160, 84%, 39%)"
+                dataKey="world"
+                stroke="hsl(168, 60%, 58%)"
                 fillOpacity={1}
-                fill="url(#gradRussia)"
+                fill="url(#gradWorld)"
                 strokeWidth={2}
                 animationBegin={isVisible ? 0 : 1000}
               />

@@ -38,7 +38,7 @@ export function FiltersBar({ location, dataCategory, sphere, year, onLocationCha
         <span className="text-xs font-medium text-muted-foreground hidden sm:inline whitespace-nowrap">Локация</span>
         <Select value={location} onValueChange={onLocationChange}>
           <SelectTrigger className="h-auto w-full min-w-0 border-0 bg-transparent shadow-none px-1! py-0! text-sm! font-medium hover:text-emerald-600 dark:hover:text-emerald-400 focus:ring-0">
-            <SelectValue />
+            <SelectValue placeholder="Выберите локацию" />
           </SelectTrigger>
           <SelectContent>
             {locations.map((loc) => (
@@ -51,7 +51,7 @@ export function FiltersBar({ location, dataCategory, sphere, year, onLocationCha
         <span className="text-xs font-medium text-muted-foreground hidden sm:inline whitespace-nowrap">Данные</span>
         <Select value={dataCategory} onValueChange={onDataCategoryChange}>
           <SelectTrigger className="h-auto w-full min-w-0 border-0 bg-transparent shadow-none px-1! py-0! text-sm! font-medium hover:text-emerald-600 dark:hover:text-emerald-400 focus:ring-0">
-            <SelectValue />
+            <SelectValue placeholder="Категория" />
           </SelectTrigger>
           <SelectContent>
             {dataCategories.map((cat) => (
@@ -64,7 +64,7 @@ export function FiltersBar({ location, dataCategory, sphere, year, onLocationCha
         <span className="text-xs font-medium text-muted-foreground hidden sm:inline whitespace-nowrap">Сфера</span>
         <Select value={sphere} onValueChange={onSphereChange}>
           <SelectTrigger className="h-auto w-full min-w-0 border-0 bg-transparent shadow-none px-1! py-0! text-sm! font-medium hover:text-emerald-600 dark:hover:text-emerald-400 focus:ring-0">
-            <SelectValue />
+            <SelectValue placeholder="Выберите сферу" />
           </SelectTrigger>
           <SelectContent>
             {spheres.map((sph) => (
@@ -77,7 +77,7 @@ export function FiltersBar({ location, dataCategory, sphere, year, onLocationCha
         <span className="text-xs font-medium text-muted-foreground hidden sm:inline whitespace-nowrap">Год</span>
         <Select value={year} onValueChange={onYearChange}>
           <SelectTrigger className="h-auto w-full min-w-0 border-0 bg-transparent shadow-none px-1! py-0! text-sm! font-medium hover:text-emerald-600 dark:hover:text-emerald-400 focus:ring-0">
-            <SelectValue />
+            <SelectValue placeholder="Выберите год" />
           </SelectTrigger>
           <SelectContent>
             {years.map((y) => (

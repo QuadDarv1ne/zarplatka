@@ -24,6 +24,24 @@ export function CookieBanner() {
     setShow(false);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      accept();
+    }
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const handleCloseKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClose();
+    }
+  };
+
   if (!show) return null;
 
   return (
@@ -39,13 +57,15 @@ export function CookieBanner() {
           </div>
           <Button
             onClick={accept}
+            onKeyDown={handleKeyDown}
             size="sm"
             className="shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white"
           >
             Принять
           </Button>
           <button
-            onClick={() => setShow(false)}
+            onClick={handleClose}
+            onKeyDown={handleCloseKeyDown}
             className="text-muted-foreground hover:text-foreground shrink-0"
             aria-label="Закрыть"
           >

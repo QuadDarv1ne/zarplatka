@@ -1,20 +1,32 @@
+import { SITE_CONFIG } from '@/lib/config';
+
 export function JsonLd() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Zarplatka',
-    url: 'https://zarplatka.ru/',
-    description: 'Статистика зарплат, цены и открытые данные по России и миру',
-    inLanguage: 'ru-RU',
+    name: SITE_CONFIG.name,
+    url: SITE_CONFIG.url,
+    description: SITE_CONFIG.description,
+    inLanguage: SITE_CONFIG.locale,
     publisher: {
       '@type': 'Organization',
-      name: 'Zarplatka',
-      url: 'https://zarplatka.ru/',
+      name: SITE_CONFIG.name,
+      url: SITE_CONFIG.url,
     },
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://zarplatka.ru/?q={search_term_string}',
+      target: `${SITE_CONFIG.url}?q={search_term_string}`,
       'query-input': 'required name=search_term_string',
+    },
+    mainEntity: {
+      '@type': 'Dataset',
+      name: 'Зарплаты и статистика',
+      description: 'Открытые данные о зарплатах, ценах, населении и рынке труда',
+      distribution: {
+        '@type': 'DataDistribution',
+        contentUrl: SITE_CONFIG.url,
+        contentSize: 'Открытый доступ',
+      },
     },
   };
 
