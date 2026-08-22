@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { FiltersBar } from '@/components/rgex/FiltersBar';
 import { WorldSalarySection } from '@/components/rgex/WorldSalarySection';
@@ -13,7 +13,6 @@ import { RatingsSection } from '@/components/rgex/RatingsSection';
 import { ContinueSection } from '@/components/rgex/ContinueSection';
 import { FAQSection } from '@/components/rgex/FAQSection';
 import { ExpertBanner } from '@/components/rgex/ExpertBanner';
-import { ScrollProgress } from '@/components/rgex/ScrollProgress';
 import { DataFreshness } from '@/components/rgex/DataFreshness';
 
 export default function HomePage() {
@@ -21,29 +20,9 @@ export default function HomePage() {
   const [dataCategory, setDataCategory] = useState('Статистика');
   const [sphere, setSphere] = useState('Все сферы');
   const [year, setYear] = useState('2026');
-  const [activeSection, setActiveSection] = useState('');
-
-  useEffect(() => {
-    const sections = document.querySelectorAll('section[id]');
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: '-20% 0px -60% 0px' }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <ScrollProgress />
-
       {/* Hero */}
       <section className="py-8 sm:py-12 space-y-6">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
@@ -69,14 +48,14 @@ export default function HomePage() {
 
       {/* World Salary */}
       <section id="world-salary" className="py-10">
-        <WorldSalarySection />
+        <WorldSalarySection location={location} year={year} />
       </section>
 
       <Separator />
 
       {/* Salary Trend */}
       <section id="salary-trend" className="py-10">
-        <SalaryTrendChart />
+        <SalaryTrendChart year={year} />
       </section>
 
       <Separator />
@@ -97,14 +76,14 @@ export default function HomePage() {
 
       {/* Russia */}
       <section id="russia" className="py-10">
-        <RussiaSalarySection />
+        <RussiaSalarySection year={year} />
       </section>
 
       <Separator />
 
       {/* Professions */}
       <section id="professions" className="py-10">
-        <ProfessionsSection />
+        <ProfessionsSection sphere={sphere} />
       </section>
 
       <Separator />
@@ -118,7 +97,7 @@ export default function HomePage() {
 
       {/* Continue */}
       <section id="continue" className="py-10">
-        <ContinueSection />
+        <ContinueSection dataCategory={dataCategory} />
       </section>
 
       <Separator />

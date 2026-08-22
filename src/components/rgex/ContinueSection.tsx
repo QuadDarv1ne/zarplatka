@@ -6,9 +6,21 @@ import { ArrowRight, BarChart3, Users, Building2, Wallet, TrendingUp } from 'luc
 
 const icons = [BarChart3, Users, Building2, Wallet, TrendingUp];
 
-export function ContinueSection() {
+const categoryMap: Record<string, string> = {
+  Зарплата: 'Работа',
+  Население: 'Население',
+  Цены: 'Цены',
+  Бизнес: 'Бизнес',
+  Рейтинги: 'Рейтинги',
+};
+
+export function ContinueSection({ dataCategory = 'Статистика' }: { dataCategory?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+
+  const links = dataCategory === 'Статистика'
+    ? continueLinks
+    : continueLinks.filter((link) => link.category === categoryMap[dataCategory]);
 
   useEffect(() => {
     const el = ref.current;
@@ -28,7 +40,7 @@ export function ContinueSection() {
       <h2 className="text-xl font-bold tracking-tight">Продолжить изучение</h2>
       <p className="text-sm text-muted-foreground">Данные и территории для локации: Россия.</p>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {continueLinks.map((link, i) => {
+        {links.map((link, i) => {
           const Icon = icons[i] || BarChart3;
           return (
             <a
@@ -53,6 +65,11 @@ export function ContinueSection() {
           );
         })}
       </div>
+      {links.length === 0 && (
+        <p className="py-6 text-center text-sm text-muted-foreground">
+          По выбранной категории данные скоро появятся.
+        </p>
+      )}
     </section>
   );
 }

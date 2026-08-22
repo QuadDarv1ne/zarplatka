@@ -1,15 +1,20 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import { topRegions, topCities, russiaSalaryMeta } from '@/lib/data/salaries';
+import { topRegions, topCities, russiaSalaryMeta, type RegionSalary, type CitySalary } from '@/lib/data/salaries';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, TrendingUp } from 'lucide-react';
 import { AnimatedCounter } from './AnimatedCounter';
 import { formatSalary } from './utils';
 
-export function RussiaSalarySection() {
+export function RussiaSalarySection({ year = '2026' }: { year?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const [showAllRegions, setShowAllRegions] = useState(false);
+  const [showAllCities, setShowAllCities] = useState(false);
+
+  const regions = showAllRegions ? topRegions : topRegions.slice(0, 5);
+  const cities = showAllCities ? topCities : topCities.slice(0, 5);
 
   useEffect(() => {
     const el = ref.current;
@@ -28,7 +33,7 @@ export function RussiaSalarySection() {
     <section ref={ref} className="space-y-6">
       <div className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
         <Badge variant="secondary" className="text-xs uppercase tracking-wider font-semibold">
-          Россия · {russiaSalaryMeta.year}
+          Россия · {year}
         </Badge>
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mt-3">Средняя зарплата в России</h2>
         <div className="mt-3 rounded-xl bg-linear-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/20 border border-emerald-100 dark:border-emerald-900/30 p-5">
@@ -54,17 +59,25 @@ export function RussiaSalarySection() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className={`transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          <RegionsCard />
+          <RegionsCard
+            regions={regions}
+            expanded={showAllRegions}
+            onToggle={() => setShowAllRegions((v) => !v)}
+          />
         </div>
         <div className={`transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          <CitiesCard />
+          <CitiesCard
+            cities={cities}
+            expanded={showAllCities}
+            onToggle={() => setShowAllCities((v) => !v)}
+          />
         </div>
       </div>
     </section>
   );
 }
 
-function RegionsCard() {
+function RegionsCard({ regions, onToggle, expanded }: { regions: RegionSalary[]; onToggle: () => void; expanded: boolean }) {
   return (
     <div className="rounded-xl border bg-card p-5 sm:p-6 shadow-sm">
       <div className="flex items-center justify-between mb-4">
@@ -74,7 +87,7 @@ function RegionsCard() {
         </a>
       </div>
       <ol className="space-y-1">
-        {topRegions.slice(0, 5).map((region) => (
+        {regions.map((region) => (
           <li key={region.name} className="flex items-center justify-between gap-2 py-2 px-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors">
             <div className="flex items-center gap-3 min-w-0">
               <span className="text-xs font-bold text-muted-foreground w-4 text-right tabular-nums">{region.position}</span>
@@ -86,14 +99,18 @@ function RegionsCard() {
           </li>
         ))}
       </ol>
-      <button className="mt-3 w-full text-center text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors py-1">
-        Показать ещё
+      <button
+        onClick={onToggle}
+        className="mt-3 w-full text-center text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors py-1"
+        aria-expanded={expanded}
+      >
+        {expanded ? 'Свернуть' : 'Показать ещё'}
       </button>
     </div>
   );
 }
 
-function CitiesCard() {
+function CitiesCard({ cities, onToggle, expanded }: { cities: CitySalary[]; onToggle: () => void; expanded: boolean }) {
   return (
     <div className="rounded-xl border bg-card p-5 sm:p-6 shadow-sm">
       <div className="flex items-center justify-between mb-4">
@@ -103,7 +120,7 @@ function CitiesCard() {
         </a>
       </div>
       <ol className="space-y-1">
-        {topCities.slice(0, 5).map((city, i) => (
+        {cities.map((city, i) => (
           <li key={city.name} className="flex items-center justify-between gap-2 py-2 px-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors">
             <div className="flex items-center gap-3 min-w-0">
               <span className="text-xs font-bold text-muted-foreground w-4 text-right tabular-nums">{i + 1}</span>
@@ -115,8 +132,12 @@ function CitiesCard() {
           </li>
         ))}
       </ol>
-      <button className="mt-3 w-full text-center text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors py-1">
-        Показать ещё
+      <button
+        onClick={onToggle}
+        className="mt-3 w-full text-center text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors py-1"
+        aria-expanded={expanded}
+      >
+        {expanded ? 'Свернуть' : 'Показать ещё'}
       </button>
     </div>
   );

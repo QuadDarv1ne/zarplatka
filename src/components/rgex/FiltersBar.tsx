@@ -26,6 +26,11 @@ const dataCategories = ['Статистика', 'Зарплата', 'Насел�
 const spheres = ['Все сферы', 'IT', 'Медицина', 'Финансы', 'Юриспруденция', 'Энергетика', 'Образование', 'Строительство'];
 const years = ['2026', '2025', '2024', '2023', '2022'];
 
+function scrollToRatings() {
+  const el = document.getElementById('ratings');
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 export function FiltersBar({ location, dataCategory, sphere, year, onLocationChange, onDataCategoryChange, onSphereChange, onYearChange }: FiltersBarProps) {
   return (
     <nav className="flex flex-wrap items-center gap-2 sm:gap-3" aria-label="Фильтр данных и локации">
@@ -81,7 +86,7 @@ export function FiltersBar({ location, dataCategory, sphere, year, onLocationCha
           </SelectContent>
         </Select>
       </div>
-      <Button variant="ghost" size="sm" className="text-muted-foreground shrink-0" aria-label="Найти локацию">
+      <Button variant="ghost" size="sm" className="text-muted-foreground shrink-0" onClick={scrollToRatings} aria-label="Найти локацию">
         <Search className="h-4 w-4 mr-1.5" />
         <span className="hidden sm:inline">Найти</span>
       </Button>

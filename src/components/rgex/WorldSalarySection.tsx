@@ -7,9 +7,20 @@ import { ArrowRight, TrendingUp } from 'lucide-react';
 import { AnimatedCounter } from './AnimatedCounter';
 import { formatSalary } from './utils';
 
-export function WorldSalarySection() {
+interface WorldSalarySectionProps {
+  location?: string;
+  year?: string;
+}
+
+const CONTINENTS = ['Европа', 'Азия', 'Северная Америка', 'Южная Америка', 'Африка', 'Океания'];
+
+export function WorldSalarySection({ location = 'Весь мир', year = '2026' }: WorldSalarySectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+
+  const countries = location === 'Весь мир' || !CONTINENTS.includes(location)
+    ? topCountries
+    : topCountries.filter((c) => c.continent === location);
 
   useEffect(() => {
     const el = ref.current;
@@ -70,10 +81,10 @@ export function WorldSalarySection() {
       <div className={`rounded-xl border bg-card p-5 sm:p-6 shadow-sm transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold">Страны с высокой средней зарплатой</h3>
-          <span className="text-xs text-muted-foreground font-medium bg-muted px-2 py-0.5 rounded-full">{worldSalaryMeta.year}</span>
+          <span className="text-xs text-muted-foreground font-medium bg-muted px-2 py-0.5 rounded-full">{year}</span>
         </div>
         <ol className="space-y-1">
-          {topCountries.map((country, i) => (
+          {countries.map((country, i) => (
             <li
               key={country.slug}
               className="flex items-center justify-between gap-3 py-2 px-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors"
@@ -89,6 +100,11 @@ export function WorldSalarySection() {
             </li>
           ))}
         </ol>
+        {countries.length === 0 && (
+          <p className="py-6 text-center text-sm text-muted-foreground">
+            По выбранной локации данные скоро появятся.
+          </p>
+        )}
         <a href="#" className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 transition-colors" aria-label="Весь рейтинг">
           Весь рейтинг <ArrowRight className="h-3 w-3" />
         </a>

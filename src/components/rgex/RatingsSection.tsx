@@ -3,36 +3,35 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { ratingCategories } from '@/lib/data/salaries';
 import { Input } from '@/components/ui/input';
-import { Search, ArrowRight, ChevronRight } from 'lucide-react';
+import { Search, ChevronRight } from 'lucide-react';
 
 const ratingGroups = ['Все', 'Доходы и работа', 'Бизнес', 'Пенсии', 'Население', 'Продолжительность жизни'];
 
 export function RatingsSection() {
   const [search, setSearch] = useState('');
   const [activeGroup, setActiveGroup] = useState('Все');
-  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
   const cardRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  const filtered = useMemo(() => {
-    return ratingCategories.filter((cat, index) => {
-      const matchesGroup = activeGroup === 'Все' || cat.group === activeGroup;
-      const matchesSearch = !search || cat.title.toLowerCase().includes(search.toLowerCase());
-      if (matchesGroup && matchesSearch) {
-        return { ...cat, index };
-      }
-      return null;
-    }).filter(Boolean) as (typeof ratingCategories[number] & { index: number })[];
+  const { filtered, visibleCards } = useMemo(() => {
+    const mapped = ratingCategories
+      .map((cat, index) => ({ ...cat, originalIndex: index }))
+      .filter((cat) => {
+        const matchesGroup = activeGroup === 'Все' || cat.group === activeGroup;
+        const matchesSearch = !search || cat.title.toLowerCase().includes(search.toLowerCase());
+        return matchesGroup && matchesSearch;
+      });
+    return {
+      filtered: mapped,
+      visibleCards: new Set(mapped.map((item) => item.originalIndex)),
+    };
   }, [search, activeGroup]);
 
   useEffect(() => {
-    setVisibleCards(new Set(filtered.map((item) => item.index)));
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const index = Number(entry.target.getAttribute('data-index'));
           if (entry.isIntersecting) {
-            setVisibleCards((prev) => new Set([...prev, index]));
+            entry.target.classList.add('animate-in');
           }
         });
       },
@@ -89,13 +88,13 @@ export function RatingsSection() {
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((item) => (
             <a
-              key={item.index}
-              ref={(el) => { cardRefs.current[item.index] = el; }}
-              data-index={item.index}
+              key={item.originalIndex}
+              ref={(el) => { cardRefs.current[item.originalIndex] = el; }}
+              data-index={item.originalIndex}
               href="#"
               aria-label={item.title}
               className={`group flex items-center justify-between gap-2 rounded-xl border bg-card p-3.5 hover:border-emerald-200 dark:hover:border-emerald-800 shadow-sm hover:shadow-md transition-all ${
-                visibleCards.has(item.index) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                visibleCards.has(item.originalIndex) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <div className="min-w-0">

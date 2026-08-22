@@ -3,11 +3,16 @@
 import { useRef, useEffect, useState } from 'react';
 import { topProfessions, topIndustries } from '@/lib/data/salaries';
 import { formatSalary } from './utils';
-import { ArrowRight } from 'lucide-react';
 
-export function ProfessionsSection() {
+export function ProfessionsSection({ sphere = 'Все сферы' }: { sphere?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+
+  const professions = sphere === 'Все сферы'
+    ? topProfessions
+    : topProfessions.filter((p) => p.industry === sphere);
+  const visibleProfessions = showAll ? professions : professions.slice(0, 8);
 
   useEffect(() => {
     const el = ref.current;
@@ -41,7 +46,7 @@ export function ProfessionsSection() {
           </div>
           <h3 className="font-semibold mb-4">Высокооплачиваемые профессии</h3>
           <ol className="space-y-0.5">
-            {topProfessions.slice(0, 8).map((prof) => (
+            {visibleProfessions.map((prof) => (
               <li key={prof.name} className="flex items-center justify-between gap-2 py-2 px-2 -mx-2 rounded-lg hover:bg-muted/50 transition-colors">
                 <div className="min-w-0">
                   <a href="#" className="text-sm font-medium hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors truncate block">
@@ -53,8 +58,17 @@ export function ProfessionsSection() {
               </li>
             ))}
           </ol>
-          <button className="mt-3 w-full text-center text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors py-1">
-            Показать ещё
+          {professions.length === 0 && (
+            <p className="py-6 text-center text-sm text-muted-foreground">
+              По выбранной сфере данные скоро появятся.
+            </p>
+          )}
+          <button
+            onClick={() => setShowAll((v) => !v)}
+            className="mt-3 w-full text-center text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors py-1"
+            aria-expanded={showAll}
+          >
+            {showAll ? 'Свернуть' : 'Показать ещё'}
           </button>
         </div>
 

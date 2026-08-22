@@ -1,7 +1,7 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Globe, Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -17,15 +17,11 @@ const sectionMap: Record<string, string> = {
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const { theme, setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { setTheme, resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+    setTheme(isDark ? 'light' : 'dark');
   };
 
   const handleNavClick = (href: string) => {
@@ -70,16 +66,10 @@ export function SiteHeader() {
               size="icon"
               className="h-8 w-8"
               onClick={toggleTheme}
-              aria-label={mounted && theme === 'dark' ? 'Переключить на светлую тему' : 'Переключить на тёмную тему'}
+              aria-label={isDark ? 'Переключить на светлую тему' : 'Переключить на тёмную тему'}
             >
-              {mounted ? (
-                <>
-                  <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                  <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                </>
-              ) : (
-                <Sun className="h-4 w-4" />
-              )}
+              <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             </Button>
             <Button variant="outline" size="sm" className="hidden sm:flex items-center gap-1.5 text-xs" aria-label="Выбрать регион">
               <Globe className="h-3.5 w-3.5" />

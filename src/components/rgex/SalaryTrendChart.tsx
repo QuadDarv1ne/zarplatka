@@ -15,9 +15,13 @@ const trendData = [
   { year: '2026', russia: 78410, world: 52750 },
 ];
 
-export function SalaryTrendChart() {
+export function SalaryTrendChart({ year = '2026' }: { year?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+
+  const data = year && year !== '2026'
+    ? trendData.filter((d) => Number(d.year) <= Number(year))
+    : trendData;
 
   useEffect(() => {
     const el = ref.current;
@@ -39,7 +43,7 @@ export function SalaryTrendChart() {
       </div>
       <h2 className="text-2xl font-bold tracking-tight">Динамика зарплат: Россия и мир</h2>
       <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">
-        Сравнение средней зарплаты в России с мировой медианой за последние 9 лет.
+        Сравнение средней зарплаты в России с мировой медианой{year !== '2026' ? ` до ${year} года` : ' за последние 9 лет'}.
         Россия демонстрирует устойчивый рост, постепенно сокращая разрыв с мировой медианой.
       </p>
       <div className="rounded-xl border bg-card p-4 sm:p-6">
@@ -55,7 +59,7 @@ export function SalaryTrendChart() {
         </div>
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={trendData} margin={{ left: 10, right: 10, top: 5, bottom: 5 }}>
+            <AreaChart data={data} margin={{ left: 10, right: 10, top: 5, bottom: 5 }}>
               <defs>
                 <linearGradient id="gradRussia" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="hsl(160, 84%, 39%)" stopOpacity={0.3} />
