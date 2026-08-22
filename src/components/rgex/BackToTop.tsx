@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -28,8 +29,4 @@ export function BackToTop() {
       <ArrowUp className={cn('h-4 w-4 transition-transform duration-300', hovered && '-translate-y-0.5')} />
     </Button>
   );
-}
-
-function cn(...classes: (string | boolean | undefined | null)[]) {
-  return classes.filter(Boolean).join(' ');
 }

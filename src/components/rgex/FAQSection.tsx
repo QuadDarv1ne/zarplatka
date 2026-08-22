@@ -58,6 +58,7 @@ export function FAQSection() {
             role="listitem"
           >
             <button
+              id={`faq-question-${i}`}
               onClick={() => toggleItem(i)}
               onKeyDown={(e) => handleKeyDown(i, e)}
               className="flex w-full items-center justify-between gap-3 p-4 text-left"
@@ -83,7 +84,7 @@ export function FAQSection() {
               aria-labelledby={`faq-question-${i}`}
             >
               <div className="px-4 pb-4 -mt-1">
-                <p className="text-sm text-muted-foreground leading-relaxed" id={`faq-question-${i}`}>
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {item.answer}
                 </p>
               </div>

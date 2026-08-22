@@ -87,7 +87,7 @@ export function ProfessionsSection({ sphere = 'Все сферы' }: { sphere?: 
               </li>
             ))}
           </ol>
-          <button className="mt-3 w-full text-center text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors py-1">
+          <button className="mt-3 w-full text-center text-xs font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors py-1" aria-expanded={false}>
             Показать ещё
           </button>
         </div>

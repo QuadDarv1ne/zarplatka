@@ -86,7 +86,7 @@ export function FiltersBar({ location, dataCategory, sphere, year, onLocationCha
           </SelectContent>
         </Select>
       </div>
-      <Button variant="ghost" size="sm" className="text-muted-foreground shrink-0" onClick={scrollToRatings} aria-label="Найти локацию">
+      <Button variant="ghost" size="sm" className="text-muted-foreground shrink-0" onClick={scrollToRatings} aria-label="Перейти к рейтингам">
         <Search className="h-4 w-4 mr-1.5" />
         <span className="hidden sm:inline">Найти</span>
       </Button>
