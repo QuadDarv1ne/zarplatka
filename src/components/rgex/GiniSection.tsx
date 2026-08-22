@@ -1,41 +1,27 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
 import { giniData, giniMeta } from '@/lib/data/salaries';
 import { Cell, PieChart, Pie, ResponsiveContainer, Tooltip } from 'recharts';
 import { AnimatedCounter } from './AnimatedCounter';
+import { useInView } from '@/hooks/use-in-view';
 
 export function GiniSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isVisible } = useInView();
 
   return (
     <section ref={ref} className="space-y-4">
-      <div className={`flex items-center gap-2 mb-2 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      <div className={`flex items-center gap-2 mb-2 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Неравенство доходов</span>
       </div>
-      <h2 className={`text-2xl font-bold tracking-tight transition-all duration-700 delay-100 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      <h2 className={`text-2xl font-bold tracking-tight transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         Распределение зарплат в мире по коэффициенту Джини
       </h2>
-      <p className={`text-sm text-muted-foreground leading-relaxed max-w-3xl transition-all duration-700 delay-100 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+      <p className={`text-sm text-muted-foreground leading-relaxed max-w-3xl transition-all duration-700 delay-100 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         Зарплаты разделены на три диапазона, а доли рассчитаны по коэффициенту Джини.
         Для мирового среза используется медианное значение по странам из базы; верхняя граница шкалы
         ограничена 150 000 ₽, чтобы единичные высокие доходы не растягивали диаграмму.
       </p>
-      <div className={`flex items-center gap-6 mb-4 transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      <div className={`flex items-center gap-6 mb-4 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
         <div>
           <p className="text-xs text-muted-foreground">Медианный коэффициент Джини</p>
           <p className="text-3xl font-bold tabular-nums"><AnimatedCounter value={giniMeta.coefficient} duration={800} /></p>
@@ -47,7 +33,7 @@ export function GiniSection() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2 items-center">
-        <div className={`rounded-xl border bg-card p-5 sm:p-6 shadow-sm flex justify-center transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'}`}>
+        <div className={`rounded-xl border bg-card p-5 sm:p-6 shadow-sm flex justify-center transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'}`}>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -61,7 +47,7 @@ export function GiniSection() {
                   nameKey="label"
                   stroke="none"
                   paddingAngle={2}
-                  animationBegin={visible ? 0 : 1000}
+                  animationBegin={isVisible ? 0 : 1000}
                 >
                   {giniData.map((entry, index) => (
                     <Cell key={index} fill={entry.color} />
@@ -76,9 +62,9 @@ export function GiniSection() {
           </div>
         </div>
 
-        <div className={`space-y-4 transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'}`}>
+        <div className={`space-y-4 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'}`}>
           {giniData.map((segment, i) => (
-            <div key={segment.label} className={`flex items-center gap-4 transition-all duration-500 ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`} style={{ transitionDelay: `${400 + i * 100}ms` }}>
+            <div key={segment.label} className={`flex items-center gap-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`} style={{ transitionDelay: `${400 + i * 100}ms` }}>
               <div
                 className="h-10 w-10 rounded-lg flex items-center justify-center shrink-0 text-white text-sm font-bold"
                 style={{ backgroundColor: segment.color }}

@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useInView } from '@/hooks/use-in-view';
 
 const trendData = [
   { year: '2018', russia: 43300, world: 38200 },
@@ -16,28 +16,14 @@ const trendData = [
 ];
 
 export function SalaryTrendChart({ year = '2026' }: { year?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const { ref, isVisible } = useInView();
 
   const data = year && year !== '2026'
     ? trendData.filter((d) => Number(d.year) <= Number(year))
     : trendData;
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={ref} className={`space-y-4 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+    <section ref={ref} className={`space-y-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Динамика</span>
       </div>
@@ -88,7 +74,7 @@ export function SalaryTrendChart({ year = '2026' }: { year?: string }) {
                 fillOpacity={1}
                 fill="url(#gradWorld)"
                 strokeWidth={2}
-                animationBegin={visible ? 0 : 1000}
+                animationBegin={isVisible ? 0 : 1000}
               />
               <Area
                 type="monotone"
@@ -97,7 +83,7 @@ export function SalaryTrendChart({ year = '2026' }: { year?: string }) {
                 fillOpacity={1}
                 fill="url(#gradRussia)"
                 strokeWidth={2}
-                animationBegin={visible ? 0 : 1000}
+                animationBegin={isVisible ? 0 : 1000}
               />
             </AreaChart>
           </ResponsiveContainer>

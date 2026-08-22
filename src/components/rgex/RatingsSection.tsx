@@ -1,49 +1,48 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { ratingCategories } from '@/lib/data/salaries';
 import { Input } from '@/components/ui/input';
 import { Search, ChevronRight } from 'lucide-react';
+import { useInView } from '@/hooks/use-in-view';
 
 const ratingGroups = ['Все', 'Доходы и работа', 'Бизнес', 'Пенсии', 'Население', 'Продолжительность жизни'];
+
+function RatingCard({ title, description }: { title: string; description: string }) {
+  const { ref, isVisible } = useInView<HTMLAnchorElement>({ threshold: 0.1 });
+  return (
+    <a
+      ref={ref}
+      href="#"
+      aria-label={title}
+      className={`group flex items-center justify-between gap-2 rounded-xl border bg-card p-3.5 hover:border-emerald-200 dark:hover:border-emerald-800 shadow-sm hover:shadow-md transition-all ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      }`}
+    >
+      <div className="min-w-0">
+        <p className="text-sm font-medium group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors truncate">
+          {title}
+        </p>
+        <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+      </div>
+      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-emerald-600 shrink-0 transition-colors" />
+    </a>
+  );
+}
 
 export function RatingsSection() {
   const [search, setSearch] = useState('');
   const [activeGroup, setActiveGroup] = useState('Все');
-  const cardRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  const { filtered, visibleCards } = useMemo(() => {
-    const mapped = ratingCategories
+  const filtered = useMemo(() => {
+    return ratingCategories
       .map((cat, index) => ({ ...cat, originalIndex: index }))
       .filter((cat) => {
         const matchesGroup = activeGroup === 'Все' || cat.group === activeGroup;
         const matchesSearch = !search || cat.title.toLowerCase().includes(search.toLowerCase());
         return matchesGroup && matchesSearch;
       });
-    return {
-      filtered: mapped,
-      visibleCards: new Set(mapped.map((item) => item.originalIndex)),
-    };
   }, [search, activeGroup]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    cardRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => observer.disconnect();
-  }, [filtered]);
 
   return (
     <section id="ratings" className="space-y-5">
@@ -87,24 +86,11 @@ export function RatingsSection() {
       ) : (
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((item) => (
-            <a
+            <RatingCard
               key={item.originalIndex}
-              ref={(el) => { cardRefs.current[item.originalIndex] = el; }}
-              data-index={item.originalIndex}
-              href="#"
-              aria-label={item.title}
-              className={`group flex items-center justify-between gap-2 rounded-xl border bg-card p-3.5 hover:border-emerald-200 dark:hover:border-emerald-800 shadow-sm hover:shadow-md transition-all ${
-                visibleCards.has(item.originalIndex) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              <div className="min-w-0">
-                <p className="text-sm font-medium group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors truncate">
-                  {item.title}
-                </p>
-                <p className="text-xs text-muted-foreground mt-0.5">{item.description}</p>
-              </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-emerald-600 shrink-0 transition-colors" />
-            </a>
+              title={item.title}
+              description={item.description}
+            />
           ))}
         </div>
       )}

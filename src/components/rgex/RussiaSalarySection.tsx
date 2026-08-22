@@ -1,37 +1,24 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { topRegions, topCities, russiaSalaryMeta, type RegionSalary, type CitySalary } from '@/lib/data/salaries';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, TrendingUp } from 'lucide-react';
 import { AnimatedCounter } from './AnimatedCounter';
 import { formatSalary } from './utils';
+import { useInView } from '@/hooks/use-in-view';
 
 export function RussiaSalarySection({ year = '2026' }: { year?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const { ref, isVisible } = useInView();
   const [showAllRegions, setShowAllRegions] = useState(false);
   const [showAllCities, setShowAllCities] = useState(false);
 
   const regions = showAllRegions ? topRegions : topRegions.slice(0, 5);
   const cities = showAllCities ? topCities : topCities.slice(0, 5);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section ref={ref} className="space-y-6">
-      <div className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+      <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
         <Badge variant="secondary" className="text-xs uppercase tracking-wider font-semibold">
           Россия · {year}
         </Badge>
@@ -58,14 +45,14 @@ export function RussiaSalarySection({ year = '2026' }: { year?: string }) {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <div className={`transition-all duration-700 delay-200 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+        <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <RegionsCard
             regions={regions}
             expanded={showAllRegions}
             onToggle={() => setShowAllRegions((v) => !v)}
           />
         </div>
-        <div className={`transition-all duration-700 delay-300 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+        <div className={`transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <CitiesCard
             cities={cities}
             expanded={showAllCities}
