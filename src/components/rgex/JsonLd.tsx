@@ -16,7 +16,6 @@ export function JsonLd() {
       target: 'https://zarplatka.ru/?q={search_term_string}',
       'query-input': 'required name=search_term_string',
     },
-    sameAs: [],
   };
 
   return (

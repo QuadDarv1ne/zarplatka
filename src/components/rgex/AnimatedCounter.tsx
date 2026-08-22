@@ -8,6 +8,10 @@ export function AnimatedCounter({ value, duration = 1200, prefix = '', suffix = 
   const hasAnimated = useRef(false);
 
   useEffect(() => {
+    hasAnimated.current = false;
+  }, [value]);
+
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
